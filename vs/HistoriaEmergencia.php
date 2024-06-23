@@ -1,7 +1,4 @@
 <?php
-// Configurar la zona horaria a la de Lima, Perú
-date_default_timezone_set('America/Lima');
-
 // Conexión a la base de datos
 $conexion = mysqli_connect("localhost", "root", "", "clinica", 3306);
 
@@ -31,10 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number'])) {
         echo '<script>alert("No se encontraron resultados para el DNI ingresado.");</script>';
     }
 }
-
-// Obtener la fecha y hora actuales en la zona horaria de Lima, Perú
-$fechaActual = date('Y-m-d');
-$horaActual = date('H:i');
 
 mysqli_close($conexion);
 ?>
@@ -74,9 +67,9 @@ mysqli_close($conexion);
                     <legend>Datos Generales</legend>
                     <div class="row">
                         <label for="fechaAtencion">Fecha de Atención:</label>
-                        <input type="date" id="fechaAtencion" name="fechaAtencion" value="<?php echo $fechaActual; ?>">
+                        <input type="date" id="fechaAtencion" name="fechaAtencion">
                         <label for="horaAtencion">Hora de Atención:</label>
-                        <input type="time" id="horaAtencion" name="horaAtencion" value="<?php echo $horaActual; ?>">
+                        <input type="time" id="horaAtencion" name="horaAtencion">
                     </div>
                     <div class="row">
                         <label for="primerNombre">Primer Nombre:</label>
