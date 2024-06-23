@@ -110,10 +110,10 @@ mysqli_close($conexion);
                         <label for="estadoCivil">Estado Civil:</label>
                         <select id="estadoCivil" name="estadoCivil" readonly>
                             <option value="" selected="selected">- selecciona -</option>
-                            <option value="Soltero" <?php echo isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'Soltero' ? 'selected' : ''; ?>>Soltero</option>
-                            <option value="Casado" <?php echo isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'Casado' ? 'selected' : ''; ?>>Casado</option>
-                            <option value="Viudo" <?php echo isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'Viudo' ? 'selected' : ''; ?>>Viudo</option>
-                            <option value="Divorciado" <?php echo isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'Divorciado' ? 'selected' : ''; ?>>Divorciado>
+                            <option value="Soltero" <?php echo (isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'soltero') ? 'selected' : ''; ?>>Soltero</option>
+                            <option value="Casado" <?php echo (isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'casado') ? 'selected' : ''; ?>>Casado</option>
+                            <option value="Viudo" <?php echo (isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'viudo') ? 'selected' : ''; ?>>Viudo</option>
+                            <option value="Divorciado" <?php echo (isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'divorciado') ? 'selected' : ''; ?>>Divorciado</option>
                         </select>
                     </div>
                 </fieldset>
