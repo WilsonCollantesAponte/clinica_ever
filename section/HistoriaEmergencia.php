@@ -1,8 +1,6 @@
 <?php
-// Configurar la zona horaria a la de Lima, Perú
 date_default_timezone_set('America/Lima');
 
-// Conexión a la base de datos
 $conexion = mysqli_connect("localhost", "root", "", "clinica", 3306);
 
 if (!$conexion) {
@@ -14,7 +12,6 @@ $datosUsuario = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number'])) {
     $dni = $_POST['document_number'];
 
-    // Consulta a la base de datos para obtener los datos del usuario
     $query = "SELECT p.nombrePrimer AS primerNombre, p.nombreSegundo AS segundoNombre, 
                      p.apellidoPaterno, p.apellidoMaterno, p.documentoIdentidad AS dni,
                      TIMESTAMPDIFF(YEAR, p.fechaNacimiento, CURDATE()) AS edad,
@@ -32,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number'])) {
     }
 }
 
-// Obtener la fecha y hora actuales en la zona horaria de Lima, Perú
 $fechaActual = date('Y-m-d');
 $horaActual = date('H:i');
 
