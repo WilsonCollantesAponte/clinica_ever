@@ -39,10 +39,14 @@ mysqli_close($conexion);
 
 <h1>Historia Clínica de Emergencia</h1>
 
-<div class="search-container">
-    <form id="searchForm" action="../section/HistoriaEmergencia.php" method="post">
-        <input type="text" id="document_number" name="document_number" required placeholder="Ingrese el DNI">
-        <button id="search-button" type="submit">Buscar</button>
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px;">
+    <form id="searchForm" action="../section/HistoriaEmergencia.php" method="post" style="display: flex; flex-direction: column; align-items: center;">
+        <input type="text" id="document_number" name="document_number" required placeholder="Ingrese el DNI"
+               style="width: 250px; padding: 10px; border: 2px solid #ccc; border-radius: 25px; font-size: 16px; outline: none; margin-bottom: 10px;">
+        <button id="search-button" type="submit"
+                style="padding: 10px 20px 10px 0px; border: 2px solid #007bff; background-color: #007bff; color: white; font-size: 16px; border-radius: 25px; cursor: pointer; outline: none; background-image: url('../img/lupa.png'); background-size: 20px; background-repeat: no-repeat; background-position: right 7.5px center;">
+            Buscar
+        </button>
     </form>
 </div>
 
