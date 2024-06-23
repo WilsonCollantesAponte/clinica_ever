@@ -119,7 +119,6 @@ mysqli_close($conexion);
                         <label for="direccion">Dirección:</label>
                         <input type="text" id="direccion" name="direccion">
                     </div>
-                
                 </fieldset>
 
              <!-- Tipo de Atención y Servicio  -->
