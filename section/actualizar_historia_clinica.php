@@ -37,32 +37,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
 
-        // Actualizar datos en la tabla persona
+        // Actualizar tabla persona
         $queryPersona = "UPDATE persona SET nombrePrimer='$primerNombre', nombreSegundo='$segundoNombre', 
                          apellidoPaterno='$apellidoPaterno', apellidoMaterno='$apellidoMaterno', documentoIdentidad='$dni', 
                          fechaNacimiento='$fechaNacimiento', sexo='$sexo' WHERE documentoIdentidad='$dni'";
         $resultPersona = mysqli_query($conexion, $queryPersona);
 
         if ($resultPersona) {
-            // Actualizar datos en la tabla paciente
+            // Actualizar tabla paciente
             $queryPaciente = "UPDATE paciente SET estadoCivil='$estadoCivil' WHERE idPersona=(SELECT id FROM persona WHERE documentoIdentidad='$dni' LIMIT 1)";
             $resultPaciente = mysqli_query($conexion, $queryPaciente);
 
             if ($resultPaciente) {
-                // Actualizar datos en la tabla domicilio_paciente
+                // Actualizar tabla domicilio_paciente
                 $queryDomicilio = "UPDATE domicilio_paciente SET departamento='$departamento', provincia='$provincia', 
                                    distrito='$distrito', localidad='$localidad', direccion='$direccion' WHERE id=(SELECT idDomicilioPaciente FROM historiaclinica WHERE idPaciente='$idPaciente' LIMIT 1)";
                 $resultDomicilio = mysqli_query($conexion, $queryDomicilio);
 
                 if ($resultDomicilio) {
-                    // Actualizar datos en la tabla atencionobservacion
+                    // Actualizar tabla atencionobservacion
                     $evolucion = $_POST['evolucion'];
                     $queryObservacion = "UPDATE atencionobservacion SET fechaIngreso='$fechaAtencion', horaIngreso='$horaAtencion', 
                                          evolucion='$evolucion' WHERE id=(SELECT idAtencionObservacion FROM historiaclinica WHERE idPaciente='$idPaciente' LIMIT 1)";
                     $resultObservacion = mysqli_query($conexion, $queryObservacion);
 
                     if ($resultObservacion) {
-                        // Actualizar datos en la tabla diagnosticoalta
+                        // Actualizar tabla diagnosticoalta
                         $diagnosticoAlta = isset($_POST['diagnosticoAlta']) ? $_POST['diagnosticoAlta'] : '';
                         $tipoDxAlta = isset($_POST['tipoDxAlta']) ? $_POST['tipoDxAlta'] : '';
                         $cie10Alta = isset($_POST['cie10Alta']) ? $_POST['cie10Alta'] : '';
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $resultAlta = mysqli_query($conexion, $queryAlta);
 
                         if ($resultAlta) {
-                            // Actualizar datos en la tabla examenfisico
+                            // Actualizar tabla examenfisico
                             $frecuenciacardiaca = $_POST['frecuenciacardiaca'];
                             $frecurespiratoria = $_POST['frecurespiratoria'];
                             $temperatura = $_POST['temperatura'];
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $resultExamenFisico = mysqli_query($conexion, $queryExamenFisico);
 
                             if ($resultExamenFisico) {
-                                // Actualizar datos en la tabla anamnesis
+                                // Actualizar tabla anamnesis
                                 $tiempoEnfermedad = $_POST['tiempoEnfermedad'];
                                 $sintomas = $_POST['sintomas'];
                                 $relato = $_POST['relato'];
@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $resultAnamnesis = mysqli_query($conexion, $queryAnamnesis);
 
                                 if ($resultAnamnesis) {
-                                    // Actualizar datos en la tabla destinopaciente
+                                    // Actualizar tabla destinopaciente
                                     $destinoPaciente = $_POST['destinoPaciente'];
                                     $establecimientoReferencia = $_POST['establecimiento'];
                                     $nombreResponsableAtencion = isset($_POST['nombreResponsableAtencion']) ? $_POST['nombreResponsableAtencion'] : ''; // Si corresponde al mismo nombre
@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     $resultDestino = mysqli_query($conexion, $queryDestino);
 
                                     if ($resultDestino) {
-                                        // Actualizar datos en la tabla historiaclinica
+                                        // Actualizar tabla historiaclinica
                                         $tipoAtencion = $_POST['tipoAtencion'];
                                         $servicio = $_POST['servicio'];
                                         $queryHistoriaClinica = "UPDATE historiaclinica SET fechaIngreso='$fechaAtencion', horaIngreso='$horaAtencion', 
