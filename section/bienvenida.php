@@ -66,7 +66,7 @@
                             <li><a href="#" data-target="../section/ficha_familiar.php">Ficha familiar</a></li>
                         </ul>
                     </li>
-                    <li><a href="#" data-target="../section/registros_pacientes.php">Registros de pacientes</a></li>
+                    <li><a href="#" data-target="../section/EditarHistoriaClinica.php">Registros de pacientes</a></li>
                 `;
             } else if (role == 2) {
                 sidebarMenu.innerHTML = `
@@ -83,7 +83,7 @@
                 `;
             } else if (role == 4) {
                 sidebarMenu.innerHTML = `
-                    <li><a href="#" data-target="../section/registros_pacientes.php">Registros de pacientes</a></li>
+                    <li><a href="#" data-target="../section/EditarHistoriaClinica.php">Registros de pacientes</a></li>
                 `;
             }
 
