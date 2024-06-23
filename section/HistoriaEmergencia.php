@@ -101,7 +101,7 @@ mysqli_close($conexion);
     </fieldset>
 
            <!-- Domicilio -->
-           <fieldset>
+                <fieldset>
                     <legend>Domicilio</legend>
                     <div class="row">
                         <label for="departamento">Departamento:</label>
