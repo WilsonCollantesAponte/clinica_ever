@@ -100,8 +100,8 @@ mysqli_close($conexion);
                         <label for="sexo">Sexo:</label>
                         <select id="sexo" name="sexo" readonly>
                             <option value="" selected="selected">- selecciona -</option>
-                            <option value="M" <?php echo isset($datosUsuario['sexo']) && $datosUsuario['sexo'] == 'M' ? 'selected' : ''; ?>>Masculino</option>
-                            <option value="F" <?php echo isset($datosUsuario['sexo']) && $datosUsuario['sexo'] == 'F' ? 'selected' : ''; ?>>Femenino</option>
+                            <option value="M" <?php echo isset($datosUsuario['sexo']) && strtoupper($datosUsuario['sexo']) == 'M' ? 'selected' : ''; ?>>Masculino</option>
+                            <option value="F" <?php echo isset($datosUsuario['sexo']) && strtoupper($datosUsuario['sexo']) == 'F' ? 'selected' : ''; ?>>Femenino</option>
                         </select>
                         <label for="fechaNacimiento">Fecha de Nacimiento:</label>
                         <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<?php echo isset($datosUsuario['fechaNacimiento']) ? $datosUsuario['fechaNacimiento'] : ''; ?>">
@@ -110,10 +110,10 @@ mysqli_close($conexion);
                         <label for="estadoCivil">Estado Civil:</label>
                         <select id="estadoCivil" name="estadoCivil" readonly>
                             <option value="" selected="selected">- selecciona -</option>
-                            <option value="Soltero" <?php echo (isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'soltero') ? 'selected' : ''; ?>>Soltero</option>
-                            <option value="Casado" <?php echo (isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'casado') ? 'selected' : ''; ?>>Casado</option>
-                            <option value="Viudo" <?php echo (isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'viudo') ? 'selected' : ''; ?>>Viudo</option>
-                            <option value="Divorciado" <?php echo (isset($datosUsuario['estadoCivil']) && $datosUsuario['estadoCivil'] == 'divorciado') ? 'selected' : ''; ?>>Divorciado</option>
+                            <option value="soltero" <?php echo (isset($datosUsuario['estadoCivil']) && strtolower($datosUsuario['estadoCivil']) == 'soltero') ? 'selected' : ''; ?>>Soltero</option>
+                            <option value="casado" <?php echo (isset($datosUsuario['estadoCivil']) && strtolower($datosUsuario['estadoCivil']) == 'casado') ? 'selected' : ''; ?>>Casado</option>
+                            <option value="viudo" <?php echo (isset($datosUsuario['estadoCivil']) && strtolower($datosUsuario['estadoCivil']) == 'viudo') ? 'selected' : ''; ?>>Viudo</option>
+                            <option value="divorciado" <?php echo (isset($datosUsuario['estadoCivil']) && strtolower($datosUsuario['estadoCivil']) == 'divorciado') ? 'selected' : ''; ?>>Divorciado</option>
                         </select>
                     </div>
                 </fieldset>
