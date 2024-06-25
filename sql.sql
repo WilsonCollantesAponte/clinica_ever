@@ -46,3 +46,18 @@ CREATE TABLE historia_clinica (
     idPersonalMedico INT,
     firma VARCHAR(255)
 );
+
+CREATE TABLE usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    codigo VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    id_cargo INT NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL
+);
+
+INSERT INTO usuario (codigo, password, id_cargo, nombre, apellido) VALUES
+('admin', 'adminpass', 1, 'Admin', 'User'),
+('doctor1', 'docpass1', 2, 'Doctor', 'One'),
+('enfermero1', 'nursepass1', 3, 'Nurse', 'One'),
+('registro1', 'recordpass1', 4, 'Record', 'Keeper');
