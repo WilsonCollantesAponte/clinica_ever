@@ -12,15 +12,11 @@ $datosUsuario = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number'])) {
     $dni = $_POST['document_number'];
 
-    $query = "SELECT p.nombrePrimer AS primerNombre, p.nombreSegundo AS segundoNombre, 
-                     p.apellidoPaterno, p.apellidoMaterno, p.documentoIdentidad AS dni,
-                     TIMESTAMPDIFF(YEAR, p.fechaNacimiento, CURDATE()) AS edad,
-                     p.sexo, p.fechaNacimiento, pa.estadoCivil
-              FROM persona p
-              LEFT JOIN paciente pa ON p.id = pa.idPersona
-              WHERE p.documentoIdentidad = '$dni'";
-
-    $resultado = mysqli_query($conexion, $query);
+    $query = "SELECT * FROM historia_clinica WHERE dni = ?";
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "s", $dni);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($resultado) > 0) {
         $datosUsuario = mysqli_fetch_assoc($resultado);
@@ -40,18 +36,13 @@ mysqli_close($conexion);
 <h1>Historia Clínica de Emergencia</h1>
 
 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px;">
-    <form id="searchForm" action="../section/HistoriaEmergencia.php" method="post" style="display: flex; flex-direction: column; align-items: center;">
-        <input type="text" id="document_number" name="document_number" required placeholder="Ingrese el DNI"
-               style="width: 250px; padding: 10px; border: 2px solid #ccc; border-radius: 25px; font-size: 16px; outline: none; margin-bottom: 10px;">
-        <button id="search-button" type="submit"
-                style="padding: 10px 20px 10px 0px; border: 2px solid #007bff; background-color: #007bff; color: white; font-size: 16px; border-radius: 25px; cursor: pointer; outline: none; background-image: url('../img/lupa.png'); background-size: 20px; background-repeat: no-repeat; background-position: right 7.5px center;">
-            Buscar
-        </button>
+    <form id="searchForm" action="HistoriaEmergencia.php" method="post" style="display: flex; flex-direction: column; align-items: center;">
+        <input type="text" id="document_number" name="document_number" required placeholder="Ingrese el DNI" style="width: 250px; padding: 10px; border: 2px solid #ccc; border-radius: 25px; font-size: 16px; outline: none; margin-bottom: 10px;">
+        <button id="search-button" type="submit" style="padding: 10px 20px; border: 2px solid #007bff; background-color: #007bff; color: white; font-size: 16px; border-radius: 25px; cursor: pointer; outline: none;">Buscar</button>
     </form>
 </div>
 
 <form id="emergencyForm" action="guardar_historia_clinica.php" method="post">
-    <!-- Información General -->
     <fieldset>
         <legend>Datos Generales</legend>
         <div class="row">
@@ -100,7 +91,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Domicilio -->
     <fieldset>
         <legend>Domicilio</legend>
         <div class="row">
@@ -121,7 +111,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Tipo de Atención y Servicio -->
     <fieldset>
         <legend>Tipo de Atención y Servicio</legend>
         <div class="row">
@@ -144,7 +133,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Anamnesis -->
     <fieldset>
         <legend>Anamnesis</legend>
         <div class="row">
@@ -165,20 +153,19 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Examen Físico -->
     <fieldset>
         <legend>Examen Físico</legend>
         <div class="row">
-            <label for="frecuenciacardiaca">Frecuencia Cardíaca:</label>
-            <input type="text" id="frecuenciacardiaca" name="frecuenciacardiaca">
-            <label for="frecurespiratoria">Frecuencia Respiratoria:</label>
-            <input type="text" id="frecurespiratoria" name="frecurespiratoria">
+            <label for="frecuenciaCardiaca">Frecuencia Cardíaca:</label>
+            <input type="text" id="frecuenciaCardiaca" name="frecuenciaCardiaca">
+            <label for="frecuenciaRespiratoria">Frecuencia Respiratoria:</label>
+            <input type="text" id="frecuenciaRespiratoria" name="frecuenciaRespiratoria">
         </div>
         <div class="row">
             <label for="temperatura">Temperatura:</label>
             <input type="text" id="temperatura" name="temperatura">
-            <label for="presionarterial">Presión Arterial:</label>
-            <input type="text" id="presionarterial" name="presionarterial">
+            <label for="presionArterial">Presión Arterial:</label>
+            <input type="text" id="presionArterial" name="presionArterial">
         </div>
         <div class="row">
             <label for="saturacion">Saturación de Oxígeno:</label>
@@ -186,7 +173,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Impresión Diagnóstica -->
     <fieldset>
         <legend>Impresión Diagnóstica</legend>
         <div class="row">
@@ -204,7 +190,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Exámenes Auxiliares -->
     <fieldset>
         <legend>Exámenes Auxiliares</legend>
         <div class="row">
@@ -213,7 +198,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Tratamiento -->
     <fieldset>
         <legend>Tratamiento</legend>
         <div class="row">
@@ -222,20 +206,19 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Datos del Acompañante del Paciente -->
     <fieldset>
         <legend>Datos del Acompañante del Paciente</legend>
         <div class="row">
-            <label for="primerNombreAcompanante">Primer Nombre:</label>
-            <input type="text" id="primerNombreAcompanante" name="primerNombreAcompanante">
-            <label for="segundoNombreAcompanante">Segundo Nombre:</label>
-            <input type="text" id="segundoNombreAcompanante" name="segundoNombreAcompanante">
+            <label for="nombrePrimerAcomp">Primer Nombre:</label>
+            <input type="text" id="nombrePrimerAcomp" name="nombrePrimerAcomp">
+            <label for="nombreSegundoAcomp">Segundo Nombre:</label>
+            <input type="text" id="nombreSegundoAcomp" name="nombreSegundoAcomp">
         </div>
         <div class="row">
-            <label for="apellidoPaternoAcompanante">Apellido Paterno:</label>
-            <input type="text" id="apellidoPaternoAcompanante" name="apellidoPaternoAcompanante">
-            <label for="apellidoMaternoAcompanante">Apellido Materno:</label>
-            <input type="text" id="apellidoMaternoAcompanante" name="apellidoMaternoAcompanante">
+            <label for="apellidoPaternoAcomp">Apellido Paterno:</label>
+            <input type="text" id="apellidoPaternoAcomp" name="apellidoPaternoAcomp">
+            <label for="apellidoMaternoAcomp">Apellido Materno:</label>
+            <input type="text" id="apellidoMaternoAcomp" name="apellidoMaternoAcomp">
         </div> 
         <div class="row">
             <label for="dniAcompanante">DNI:</label>
@@ -245,7 +228,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Destino del Paciente -->
     <fieldset>
         <legend>Destino del Paciente</legend>
         <div class="row">
@@ -263,14 +245,13 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Datos de Atención en Observación -->
     <fieldset>
         <legend>Datos de Atención en Observación</legend>
         <div class="row">
-            <label for="fechaIngreso">Fecha de Ingreso:</label>
-            <input type="date" id="fechaIngreso" name="fechaIngreso">
-            <label for="horaIngreso">Hora de Ingreso:</label>
-            <input type="time" id="horaIngreso" name="horaIngreso">
+            <label for="fechaAtencionObs">Fecha de Ingreso:</label>
+            <input type="date" id="fechaAtencionObs" name="fechaAtencionObs" value="<?php echo isset($datosUsuario['fechaAtencion']) ? $datosUsuario['fechaAtencion'] : ''; ?>">
+            <label for="horaAtencionObs">Hora de Ingreso:</label>
+            <input type="time" id="horaAtencionObs" name="horaAtencionObs" value="<?php echo isset($datosUsuario['horaAtencion']) ? $datosUsuario['horaAtencion'] : ''; ?>">
         </div>
         <div class="row">
             <label for="evolucion">Evolución:</label>
@@ -278,7 +259,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Alta del Paciente -->
     <fieldset>
         <legend>Alta del Paciente</legend>
         <div class="row">
@@ -290,60 +270,12 @@ mysqli_close($conexion);
         <div class="row">
             <label for="nombreResponsableAlta">Responsable de Alta:</label>
             <input type="text" id="nombreResponsableAlta" name="nombreResponsableAlta">
-            <label for="codigoResponsable">Código del Responsable:</label>
-            <input type="text" id="codigoResponsable" name="codigoResponsable">
-        </div>
-    </fieldset>
-
-    <!-- Firma -->
-    <fieldset>
-        <legend>Firma</legend>
-        <div class="row">
             <label for="firma">Firma:</label>
             <input type="file" id="firma" name="firma">
         </div>
     </fieldset>
 
-    <!-- Personal Medico -->
-    <fieldset>
-        <legend>Personal Medico</legend>
-        <div class="row">
-            <label for="idPersonalmedico">ID Personal Medico:</label>
-            <input type="number" id="idPersonalmedico" name="idPersonalmedico">
-        </div>
-    </fieldset>
-
-    <!-- Botón de Enviar -->
     <div class="row">
         <button type="submit">Guardar Historia Clínica</button>
     </div>
 </form>
-
-<script>
-$(document).ready(function(){
-    $('#searchForm').on('submit', function(event){
-        event.preventDefault();
-        $.ajax({
-            url: '../section/HistoriaEmergencia.php',
-            method: 'POST',
-            data: $(this).serialize(),
-            success: function(response){
-                $('#content').html(response);
-            }
-        });
-    });
-
-    $('#emergencyForm').on('submit', function(event){
-        event.preventDefault();
-        $.ajax({
-            url: 'guardar_historia_clinica.php',
-            method: 'POST',
-            data: $(this).serialize(),
-            success: function(response){
-                alert(response);
-                // Recargar la página o redirigir si es necesario
-            }
-        });
-    });
-});
-</script>

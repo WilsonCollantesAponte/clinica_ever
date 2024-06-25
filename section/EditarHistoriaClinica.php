@@ -12,26 +12,13 @@ $datosUsuario = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number'])) {
     $dni = $_POST['document_number'];
 
-    $query = "
-    SELECT p.id AS idPersona, p.nombrePrimer AS primerNombre, p.nombreSegundo AS segundoNombre, 
-           p.apellidoPaterno, p.apellidoMaterno, p.documentoIdentidad AS dni,
-           TIMESTAMPDIFF(YEAR, p.fechaNacimiento, CURDATE()) AS edad,
-           p.sexo, p.fechaNacimiento, pa.estadoCivil,
-           hc.fechaIngreso, hc.horaIngreso, hc.idPersonalmedico, hc.idDomicilioPaciente, 
-           hc.idDiagnosticoAlta, hc.idAnamnesis, hc.idDestinoPaciente, hc.idAtencionObservacion, 
-           hc.idExamenFisico, hc.id AS idPaciente,
-           dp.departamento, dp.provincia, dp.distrito, dp.localidad, dp.direccion
-    FROM persona p
-    LEFT JOIN paciente pa ON p.id = pa.idPersona
-    LEFT JOIN historiaclinica hc ON pa.id = hc.idPaciente
-    LEFT JOIN domicilio_paciente dp ON hc.idDomicilioPaciente = dp.id
-    WHERE p.documentoIdentidad = '$dni'";
+    $query = "SELECT * FROM historia_clinica WHERE dni = ?";
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "s", $dni);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
 
-    $resultado = mysqli_query($conexion, $query);
-
-    if (!$resultado) {
-        echo "Error en la consulta: " . mysqli_error($conexion);
-    } elseif (mysqli_num_rows($resultado) > 0) {
+    if (mysqli_num_rows($resultado) > 0) {
         $datosUsuario = mysqli_fetch_assoc($resultado);
     } else {
         echo '<script>alert("No se encontraron resultados para el DNI ingresado.");</script>';
@@ -47,24 +34,19 @@ mysqli_close($conexion);
 
 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px;">
     <form id="searchForm" action="EditarHistoriaClinica.php" method="post" style="display: flex; flex-direction: column; align-items: center;">
-        <input type="text" id="document_number" name="document_number" required placeholder="Ingrese el DNI"
-               style="width: 250px; padding: 10px; border: 2px solid #ccc; border-radius: 25px; font-size: 16px; outline: none; margin-bottom: 10px;">
-        <button id="search-button" type="submit"
-                style="padding: 10px 20px 10px 0px; border: 2px solid #007bff; background-color: #007bff; color: white; font-size: 16px; border-radius: 25px; cursor: pointer; outline: none; background-image: url('../img/lupa.png'); background-size: 20px; background-repeat: no-repeat; background-position: right 7.5px center;">
-            Buscar
-        </button>
+        <input type="text" id="document_number" name="document_number" required placeholder="Ingrese el DNI" style="width: 250px; padding: 10px; border: 2px solid #ccc; border-radius: 25px; font-size: 16px; outline: none; margin-bottom: 10px;">
+        <button id="search-button" type="submit" style="padding: 10px 20px; border: 2px solid #007bff; background-color: #007bff; color: white; font-size: 16px; border-radius: 25px; cursor: pointer; outline: none;">Buscar</button>
     </form>
 </div>
 
 <form id="editForm" action="actualizar_historia_clinica.php" method="post">
-    <!-- Información General -->
     <fieldset>
         <legend>Datos Generales</legend>
         <div class="row">
             <label for="fechaAtencion">Fecha de Atención:</label>
-            <input type="date" id="fechaAtencion" name="fechaAtencion" value="<?php echo isset($datosUsuario['fechaIngreso']) ? $datosUsuario['fechaIngreso'] : ''; ?>">
+            <input type="date" id="fechaAtencion" name="fechaAtencion" value="<?php echo isset($datosUsuario['fechaAtencion']) ? $datosUsuario['fechaAtencion'] : ''; ?>">
             <label for="horaAtencion">Hora de Atención:</label>
-            <input type="time" id="horaAtencion" name="horaAtencion" value="<?php echo isset($datosUsuario['horaIngreso']) ? $datosUsuario['horaIngreso'] : ''; ?>">
+            <input type="time" id="horaAtencion" name="horaAtencion" value="<?php echo isset($datosUsuario['horaAtencion']) ? $datosUsuario['horaAtencion'] : ''; ?>">
         </div>
         <div class="row">
             <label for="primerNombre">Primer Nombre:</label>
@@ -105,58 +87,45 @@ mysqli_close($conexion);
             </select>
         </div>
         <div class="row">
-            <label for="idPaciente">ID Paciente:</label>
-            <input type="text" id="idPaciente" name="idPaciente" value="<?php echo isset($datosUsuario['idPaciente']) ? $datosUsuario['idPaciente'] : ''; ?>">
-            <label for="idPersonalmedico">ID Personal Médico:</label>
-            <input type="text" id="idPersonalmedico" name="idPersonalmedico" value="<?php echo isset($datosUsuario['idPersonalmedico']) ? $datosUsuario['idPersonalmedico'] : ''; ?>">
-        </div>
-    </fieldset>
-
-    <!-- Domicilio -->
-    <fieldset>
-        <legend>Domicilio</legend>
-        <div class="row">
             <label for="departamento">Departamento:</label>
             <input type="text" id="departamento" name="departamento" value="<?php echo isset($datosUsuario['departamento']) ? $datosUsuario['departamento'] : ''; ?>">
-        </div>
-        <div class="row">
             <label for="provincia">Provincia:</label>
             <input type="text" id="provincia" name="provincia" value="<?php echo isset($datosUsuario['provincia']) ? $datosUsuario['provincia'] : ''; ?>">
-            <label for="distrito">Distrito:</label>
-            <input type="text" id="distrito" name="distrito" value="<?php echo isset($datosUsuario['distrito']) ? $datosUsuario['distrito'] : ''; ?>">
         </div>
         <div class="row">
+            <label for="distrito">Distrito:</label>
+            <input type="text" id="distrito" name="distrito" value="<?php echo isset($datosUsuario['distrito']) ? $datosUsuario['distrito'] : ''; ?>">
             <label for="localidad">Localidad:</label>
             <input type="text" id="localidad" name="localidad" value="<?php echo isset($datosUsuario['localidad']) ? $datosUsuario['localidad'] : ''; ?>">
+        </div>
+        <div class="row">
             <label for="direccion">Dirección:</label>
             <input type="text" id="direccion" name="direccion" value="<?php echo isset($datosUsuario['direccion']) ? $datosUsuario['direccion'] : ''; ?>">
         </div>
     </fieldset>
 
-    <!-- Tipo de Atención y Servicio -->
     <fieldset>
         <legend>Tipo de Atención y Servicio</legend>
         <div class="row">
             <label for="tipoAtencion">Tipo de Atención:</label>
             <select id="tipoAtencion" name="tipoAtencion">
                 <option value="" selected="selected">- selecciona -</option>
-                <option value="Sin Seguro" <?php echo isset($datosUsuario['tipoSeguro']) && $datosUsuario['tipoSeguro'] == 'Sin Seguro' ? 'selected' : ''; ?>>Sin Seguro</option>
-                <option value="AUS" <?php echo isset($datosUsuario['tipoSeguro']) && $datosUsuario['tipoSeguro'] == 'AUS' ? 'selected' : ''; ?>>AUS</option>
-                <option value="SOAT" <?php echo isset($datosUsuario['tipoSeguro']) && $datosUsuario['tipoSeguro'] == 'SOAT' ? 'selected' : ''; ?>>SOAT</option>
-                <option value="Otros" <?php echo isset($datosUsuario['tipoSeguro']) && $datosUsuario['tipoSeguro'] == 'Otros' ? 'selected' : ''; ?>>Otros</option>
+                <option value="Sin Seguro" <?php echo isset($datosUsuario['tipoAtencion']) && $datosUsuario['tipoAtencion'] == 'Sin Seguro' ? 'selected' : ''; ?>>Sin Seguro</option>
+                <option value="AUS" <?php echo isset($datosUsuario['tipoAtencion']) && $datosUsuario['tipoAtencion'] == 'AUS' ? 'selected' : ''; ?>>AUS</option>
+                <option value="SOAT" <?php echo isset($datosUsuario['tipoAtencion']) && $datosUsuario['tipoAtencion'] == 'SOAT' ? 'selected' : ''; ?>>SOAT</option>
+                <option value="Otros" <?php echo isset($datosUsuario['tipoAtencion']) && $datosUsuario['tipoAtencion'] == 'Otros' ? 'selected' : ''; ?>>Otros</option>
             </select>
         </div>
         <div class="row">
             <label for="servicio">Servicio:</label>
             <select id="servicio" name="servicio">
                 <option value="" selected="selected">- selecciona -</option>
-                <option value="Medicina" <?php echo isset($datosUsuario['tipoServicio']) && $datosUsuario['tipoServicio'] == 'Medicina' ? 'selected' : ''; ?>>Medicina</option>
-                <option value="Otros" <?php echo isset($datosUsuario['tipoServicio']) && $datosUsuario['tipoServicio'] == 'Otros' ? 'selected' : ''; ?>>Otros</option>
+                <option value="Medicina" <?php echo isset($datosUsuario['servicio']) && $datosUsuario['servicio'] == 'Medicina' ? 'selected' : ''; ?>>Medicina</option>
+                <option value="Otros" <?php echo isset($datosUsuario['servicio']) && $datosUsuario['servicio'] == 'Otros' ? 'selected' : ''; ?>>Otros</option>
             </select>
         </div>
     </fieldset>
 
-    <!-- Anamnesis -->
     <fieldset>
         <legend>Anamnesis</legend>
         <div class="row">
@@ -176,16 +145,16 @@ mysqli_close($conexion);
             <textarea id="antecedentes" name="antecedentes"><?php echo isset($datosUsuario['antecedentes']) ? $datosUsuario['antecedentes'] : ''; ?></textarea>
         </div>
         <div class="row">
-            <label for="frecuenciacardiaca">Frecuencia Cardíaca:</label>
-            <input type="text" id="frecuenciacardiaca" name="frecuenciacardiaca" value="<?php echo isset($datosUsuario['frecuenciaCardiaca']) ? $datosUsuario['frecuenciaCardiaca'] : ''; ?>">
-            <label for="frecurespiratoria">Frecuencia Respiratoria:</label>
-            <input type="text" id="frecurespiratoria" name="frecurespiratoria" value="<?php echo isset($datosUsuario['frecuenciaRespiratoria']) ? $datosUsuario['frecuenciaRespiratoria'] : ''; ?>">
+            <label for="frecuenciaCardiaca">Frecuencia Cardíaca:</label>
+            <input type="text" id="frecuenciaCardiaca" name="frecuenciaCardiaca" value="<?php echo isset($datosUsuario['frecuenciaCardiaca']) ? $datosUsuario['frecuenciaCardiaca'] : ''; ?>">
+            <label for="frecuenciaRespiratoria">Frecuencia Respiratoria:</label>
+            <input type="text" id="frecuenciaRespiratoria" name="frecuenciaRespiratoria" value="<?php echo isset($datosUsuario['frecuenciaRespiratoria']) ? $datosUsuario['frecuenciaRespiratoria'] : ''; ?>">
         </div>
         <div class="row">
             <label for="temperatura">Temperatura:</label>
             <input type="text" id="temperatura" name="temperatura" value="<?php echo isset($datosUsuario['temperatura']) ? $datosUsuario['temperatura'] : ''; ?>">
-            <label for="presionarterial">Presión Arterial:</label>
-            <input type="text" id="presionarterial" name="presionarterial" value="<?php echo isset($datosUsuario['presionarterial']) ? $datosUsuario['presionarterial'] : ''; ?>">
+            <label for="presionArterial">Presión Arterial:</label>
+            <input type="text" id="presionArterial" name="presionArterial" value="<?php echo isset($datosUsuario['presionArterial']) ? $datosUsuario['presionArterial'] : ''; ?>">
         </div>
         <div class="row">
             <label for="saturacion">Saturación de Oxígeno:</label>
@@ -193,7 +162,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Impresión Diagnóstica -->
     <fieldset>
         <legend>Impresión Diagnóstica</legend>
         <div class="row">
@@ -202,25 +170,23 @@ mysqli_close($conexion);
             <label for="tipo">Tipo de DX:</label>
             <select id="tipo" name="tipo">
                 <option value="" selected="selected">- selecciona -</option>
-                <option value="presuntivo" <?php echo isset($datosUsuario['tipo']) && $datosUsuario['tipo'] == 'presuntivo' ? 'selected' : ''; ?>>Presuntivo</option>
-                <option value="definitivo" <?php echo isset($datosUsuario['tipo']) && $datosUsuario['tipo'] == 'definitivo' ? 'selected' : ''; ?>>Definitivo</option>
-                <option value="repetido" <?php echo isset($datosUsuario['tipo']) && $datosUsuario['tipo'] == 'repetido' ? 'selected' : ''; ?>>Repetido</option>
+                <option value="presuntivo" <?php echo isset($datosUsuario['tipoDX']) && $datosUsuario['tipoDX'] == 'presuntivo' ? 'selected' : ''; ?>>Presuntivo</option>
+                <option value="definitivo" <?php echo isset($datosUsuario['tipoDX']) && $datosUsuario['tipoDX'] == 'definitivo' ? 'selected' : ''; ?>>Definitivo</option>
+                <option value="repetido" <?php echo isset($datosUsuario['tipoDX']) && $datosUsuario['tipoDX'] == 'repetido' ? 'selected' : ''; ?>>Repetido</option>
             </select>
             <label for="cie10">CIE-10:</label>
             <input type="text" id="cie10" name="cie10" value="<?php echo isset($datosUsuario['cie10']) ? $datosUsuario['cie10'] : ''; ?>">
         </div>
     </fieldset>
 
-    <!-- Examen Auxiliares -->
     <fieldset>
-        <legend>Examen Auxiliares</legend>
+        <legend>Exámenes Auxiliares</legend>
         <div class="row">
-            <label for="examenAuxiliares">Examen Auxiliares:</label>
+            <label for="examenAuxiliares">Exámenes Auxiliares:</label>
             <textarea id="examenAuxiliares" name="examenAuxiliares"><?php echo isset($datosUsuario['examenAuxiliares']) ? $datosUsuario['examenAuxiliares'] : ''; ?></textarea>
         </div>
     </fieldset>
 
-    <!-- Tratamiento -->
     <fieldset>
         <legend>Tratamiento</legend>
         <div class="row">
@@ -229,7 +195,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Datos del acompañante -->
     <fieldset>
         <legend>Datos del Acompañante del Paciente</legend>
         <div class="row">
@@ -252,7 +217,6 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Destino del Paciente -->
     <fieldset>
         <legend>Destino del Paciente</legend>
         <div class="row">
@@ -270,14 +234,13 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    <!-- Datos de Atención en Observación -->
     <fieldset>
         <legend>Datos de Atención en Observación</legend>
         <div class="row">
             <label for="fechaAtencionObs">Fecha de Ingreso:</label>
-            <input type="date" id="fechaAtencionObs" name="fechaAtencionObs" value="<?php echo isset($datosUsuario['fechaIngreso']) ? $datosUsuario['fechaIngreso'] : ''; ?>">
+            <input type="date" id="fechaAtencionObs" name="fechaAtencionObs" value="<?php echo isset($datosUsuario['fechaAtencionObs']) ? $datosUsuario['fechaAtencionObs'] : ''; ?>">
             <label for="horaAtencionObs">Hora de Ingreso:</label>
-            <input type="time" id="horaAtencionObs" name="horaAtencionObs" value="<?php echo isset($datosUsuario['horaIngreso']) ? $datosUsuario['horaIngreso'] : ''; ?>">
+            <input type="time" id="horaAtencionObs" name="horaAtencionObs" value="<?php echo isset($datosUsuario['horaAtencionObs']) ? $datosUsuario['horaAtencionObs'] : ''; ?>">
         </div>
         <div class="row">
             <label for="evolucion">Evolución:</label>
@@ -285,20 +248,19 @@ mysqli_close($conexion);
         </div>
         <div class="row">
             <label for="diagnosticoObs">Diagnóstico:</label>
-            <input type="text" id="diagnosticoObs" name="diagnosticoObs" value="<?php echo isset($datosUsuario['diagnostico']) ? $datosUsuario['diagnostico'] : ''; ?>">
+            <input type="text" id="diagnosticoObs" name="diagnosticoObs" value="<?php echo isset($datosUsuario['diagnosticoObs']) ? $datosUsuario['diagnosticoObs'] : ''; ?>">
             <label for="tipoDXObs">Tipo de DX:</label>
             <select id="tipoDXObs" name="tipoDXObs">
                 <option value="" selected="selected">- selecciona -</option>
-                <option value="presuntivo" <?php echo isset($datosUsuario['tipo']) && $datosUsuario['tipo'] == 'presuntivo' ? 'selected' : ''; ?>>Presuntivo</option>
-                <option value="definitivo" <?php echo isset($datosUsuario['tipo']) && $datosUsuario['tipo'] == 'definitivo' ? 'selected' : ''; ?>>Definitivo</option>
-                <option value="repetido" <?php echo isset($datosUsuario['tipo']) && $datosUsuario['tipo'] == 'repetido' ? 'selected' : ''; ?>>Repetido</option>
+                <option value="presuntivo" <?php echo isset($datosUsuario['tipoDXObs']) && $datosUsuario['tipoDXObs'] == 'presuntivo' ? 'selected' : ''; ?>>Presuntivo</option>
+                <option value="definitivo" <?php echo isset($datosUsuario['tipoDXObs']) && $datosUsuario['tipoDXObs'] == 'definitivo' ? 'selected' : ''; ?>>Definitivo</option>
+                <option value="repetido" <?php echo isset($datosUsuario['tipoDXObs']) && $datosUsuario['tipoDXObs'] == 'repetido' ? 'selected' : ''; ?>>Repetido</option>
             </select>
             <label for="cie10Obs">CIE-10:</label>
-            <input type="text" id="cie10Obs" name="cie10Obs" value="<?php echo isset($datosUsuario['cie10']) ? $datosUsuario['cie10'] : ''; ?>">
+            <input type="text" id="cie10Obs" name="cie10Obs" value="<?php echo isset($datosUsuario['cie10Obs']) ? $datosUsuario['cie10Obs'] : ''; ?>">
         </div>
     </fieldset>
 
-    <!-- Alta del Paciente -->
     <fieldset>
         <legend>Alta del Paciente</legend>
         <div class="row">
@@ -311,41 +273,11 @@ mysqli_close($conexion);
             <label for="nombreResponsableAlta">Responsable de Alta:</label>
             <input type="text" id="nombreResponsableAlta" name="nombreResponsableAlta" value="<?php echo isset($datosUsuario['nombreResponsableAlta']) ? $datosUsuario['nombreResponsableAlta'] : ''; ?>">
             <label for="firma">Firma:</label>
-            <input type="file" id="firma" name="firma">
+            <input type="file" id="firma" name="firma" value="<?php echo isset($datosUsuario['firma']) ? $datosUsuario['firma'] : ''; ?>">
         </div>
     </fieldset>
 
-    <!-- Botón de Enviar -->
     <div class="row">
         <button type="submit">Editar Historia Clínica</button>
     </div>
 </form>
-
-<script>
-$(document).ready(function(){
-    $('#searchForm').on('submit', function(event){
-        event.preventDefault();
-        $.ajax({
-            url: 'EditarHistoriaClinica.php',
-            method: 'POST',
-            data: $(this).serialize(),
-            success: function(response){
-                $('#content').html(response);
-            }
-        });
-    });
-
-    $('#editForm').on('submit', function(event){
-        event.preventDefault();
-        $.ajax({
-            url: 'actualizar_historia_clinica.php',
-            method: 'POST',
-            data: $(this).serialize(),
-            success: function(response){
-                alert(response);
-                // Recargar la página o redirigir si es necesario
-            }
-        });
-    });
-});
-</script>

@@ -9,23 +9,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <?php
-    session_start();
-    if (!isset($_SESSION['rol'])) {
-        header("Location: index.php");
-        exit;
-    }
-    $rol = $_SESSION['rol'];
-
-    $validar = $_SESSION['user_id'];
-
-    if ($validar == null || $validar == '') {
-        header("Location: index.php");
-        die();
-    }
-    ?>
+  
     <script>
-        const userRole = "<?php echo $rol; ?>";
+        const userRole = "1";
     </script>
 
     <?php include("header_bienvenida.php"); ?>
