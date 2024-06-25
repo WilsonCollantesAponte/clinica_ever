@@ -99,7 +99,7 @@
         restrictAccessByRole(userRole);
 
         // Cargar contenido de HistoriaEmergencia.php al inicio
-        $('#content').load('../section/HistoriaEmergencia.php');
+        // $('#content').load('../section/HistoriaEmergencia.php');
     </script>
 
     <div class="container-footer">
