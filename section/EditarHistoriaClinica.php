@@ -167,8 +167,8 @@ mysqli_close($conexion);
         <div class="row">
             <label for="diagnostico">Diagnóstico:</label>
             <input type="text" id="diagnostico" name="diagnostico" value="<?php echo isset($datosUsuario['diagnostico']) ? $datosUsuario['diagnostico'] : ''; ?>">
-            <label for="tipo">Tipo de DX:</label>
-            <select id="tipo" name="tipo">
+            <label for="tipoDX">Tipo de DX:</label>
+            <select id="tipoDX" name="tipoDX">
                 <option value="" selected="selected">- selecciona -</option>
                 <option value="presuntivo" <?php echo isset($datosUsuario['tipoDX']) && $datosUsuario['tipoDX'] == 'presuntivo' ? 'selected' : ''; ?>>Presuntivo</option>
                 <option value="definitivo" <?php echo isset($datosUsuario['tipoDX']) && $datosUsuario['tipoDX'] == 'definitivo' ? 'selected' : ''; ?>>Definitivo</option>
@@ -229,8 +229,8 @@ mysqli_close($conexion);
                 <option value="Fuga" <?php echo isset($datosUsuario['destinoPaciente']) && $datosUsuario['destinoPaciente'] == 'Fuga' ? 'selected' : ''; ?>>Fuga</option>
                 <option value="Observación" <?php echo isset($datosUsuario['destinoPaciente']) && $datosUsuario['destinoPaciente'] == 'Observación' ? 'selected' : ''; ?>>Observación</option>
             </select>
-            <label for="establecimiento">Especificar Establecimiento:</label>
-            <textarea id="establecimiento" name="establecimiento"><?php echo isset($datosUsuario['establecimiento']) ? $datosUsuario['establecimiento'] : ''; ?></textarea>
+            <label for="establecimientoReferencia">Especificar Establecimiento:</label>
+            <textarea id="establecimientoReferencia" name="establecimientoReferencia"><?php echo isset($datosUsuario['establecimientoReferencia']) ? $datosUsuario['establecimientoReferencia'] : ''; ?></textarea>
         </div>
     </fieldset>
 

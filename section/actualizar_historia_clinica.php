@@ -1,3 +1,4 @@
+<!-- Archivo: actualizar_historia_clinica.php -->
 <?php
 $conexion = mysqli_connect("localhost", "root", "", "clinica", 3306);
 
@@ -34,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $frecuenciaRespiratoria = $_POST['frecuenciaRespiratoria'] ?? '';
         $temperatura = $_POST['temperatura'] ?? '';
         $presionArterial = $_POST['presionArterial'] ?? '';
-        $saturacionOxigeno = $_POST['saturacionOxigeno'] ?? '';
+        $saturacionOxigeno = $_POST['saturacion'] ?? '';
         $diagnostico = $_POST['diagnostico'] ?? '';
         $tipoDX = $_POST['tipoDX'] ?? '';
         $cie10 = $_POST['cie10'] ?? '';
@@ -71,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        mysqli_stmt_bind_param($stmt, 'sssssssssssssssssssssssssssssssssssssssssssss',
+        mysqli_stmt_bind_param($stmt, 'ssssssssssssssssssssssssssssssssssssssssssssss',
             $primerNombre, $segundoNombre, $apellidoPaterno, $apellidoMaterno, $fechaNacimiento, $edad, $sexo, $estadoCivil, $grupoSanguineo,
             $fechaAtencion, $horaAtencion, $departamento, $provincia, $distrito, $localidad, $direccion, $tipoAtencion, $servicio, $tiempoEnfermedad,
             $sintomas, $relato, $antecedentes, $frecuenciaCardiaca, $frecuenciaRespiratoria, $temperatura, $presionArterial, $saturacionOxigeno,
