@@ -281,3 +281,31 @@ mysqli_close($conexion);
         <button type="submit">Editar Historia Clínica</button>
     </div>
 </form>
+
+<script>
+$(document).ready(function(){
+    $('#searchForm').on('submit', function(event){
+        event.preventDefault();
+        $.ajax({
+            url: 'EditarHistoriaClinica.php',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(response){
+                $('#content').html(response);
+            }
+        });
+    });
+
+    $('#editForm').on('submit', function(event){
+        event.preventDefault();
+        $.ajax({
+            url: 'actualizar_historia_clinica.php',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(response){
+                alert(response);
+            }
+        });
+    });
+});
+</script>

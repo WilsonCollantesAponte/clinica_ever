@@ -1,4 +1,3 @@
-<!-- Archivo: actualizar_historia_clinica.php -->
 <?php
 $conexion = mysqli_connect("localhost", "root", "", "clinica", 3306);
 
@@ -83,7 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resultado = mysqli_stmt_execute($stmt);
 
         if ($resultado) {
-            echo "<script>alert('Historia clínica actualizada exitosamente.'); window.location.href = '../section/bienvenida.php';</script>";
+            echo "Historia clínica actualizada exitosamente.";
+            // echo "<script>alert('Historia clínica actualizada exitosamente.'); window.location.href = '../section/bienvenida.php';</script>";
         } else {
             echo "<script>alert('Error al actualizar la historia clínica: " . mysqli_stmt_error($stmt) . "'); window.history.back();</script>";
         }

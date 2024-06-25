@@ -279,3 +279,31 @@ mysqli_close($conexion);
         <button type="submit">Guardar Historia Clínica</button>
     </div>
 </form>
+
+<script>
+$(document).ready(function(){
+    $('#searchForm').on('submit', function(event){
+        event.preventDefault();
+        $.ajax({
+            url: '../section/HistoriaEmergencia.php',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(response){
+                $('#content').html(response);
+            }
+        });
+    });
+
+    $('#emergencyForm').on('submit', function(event){
+        event.preventDefault();
+        $.ajax({
+            url: 'guardar_historia_clinica.php',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(response){
+                alert(response);
+            }
+        });
+    });
+});
+</script>
