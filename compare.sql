@@ -1,4 +1,4 @@
-CREATE TABLE historia_clinica (
+CREATE TABLE IF NOT EXISTS historia_clinica (
     dni VARCHAR(20) PRIMARY KEY,
     primerNombre VARCHAR(50),
     segundoNombre VARCHAR(50),
