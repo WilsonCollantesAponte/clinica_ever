@@ -246,7 +246,10 @@ mysqli_close($conexion);
             <label for="evolucion">Evolución:</label>
             <textarea id="evolucion" name="evolucion"><?php echo isset($datosUsuario['evolucion']) ? $datosUsuario['evolucion'] : ''; ?></textarea>
         </div>
-        <div class="row">
+    
+    </fieldset>
+    <fieldset>
+    <div class="row">
             <label for="diagnosticoObs">Diagnóstico:</label>
             <input type="text" id="diagnosticoObs" name="diagnosticoObs" value="<?php echo isset($datosUsuario['diagnosticoObs']) ? $datosUsuario['diagnosticoObs'] : ''; ?>">
             <label for="tipoDXObs">Tipo de DX:</label>
@@ -260,7 +263,6 @@ mysqli_close($conexion);
             <input type="text" id="cie10Obs" name="cie10Obs" value="<?php echo isset($datosUsuario['cie10Obs']) ? $datosUsuario['cie10Obs'] : ''; ?>">
         </div>
     </fieldset>
-
     <fieldset>
         <legend>Alta del Paciente</legend>
         <div class="row">

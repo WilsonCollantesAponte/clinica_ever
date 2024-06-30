@@ -33,7 +33,7 @@ mysqli_close($conexion);
 
 <link rel="stylesheet" href="../estilos/styleem.css">
 
-<h1>Historia Clínica de Emergencia</h1>
+<h1>Registros de Incidencias</h1>
 
 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px;">
     <form id="searchForm" action="HistoriaEmergencia.php" method="post" style="display: flex; flex-direction: column; align-items: center;">
@@ -171,24 +171,7 @@ mysqli_close($conexion);
             <label for="saturacion">Saturación de Oxígeno:</label>
             <input type="text" id="saturacion" name="saturacion">
         </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>Impresión Diagnóstica</legend>
-        <div class="row">
-            <label for="diagnostico">Diagnóstico:</label>
-            <input type="text" id="diagnostico" name="diagnostico">
-            <label for="tipo">Tipo de DX:</label>
-            <select id="tipo" name="tipo">
-                <option value="" selected="selected">- selecciona -</option>
-                <option value="presuntivo">Presuntivo</option>
-                <option value="definitivo">Definitivo</option>
-                <option value="repetido">Repetido</option>
-            </select>
-            <label for="cie10">CIE-10:</label>
-            <input type="text" id="cie10" name="cie10">
-        </div>
-    </fieldset>
+  
 
     <fieldset>
         <legend>Exámenes Auxiliares</legend>
@@ -258,6 +241,25 @@ mysqli_close($conexion);
             <textarea id="evolucion" name="evolucion"></textarea>
         </div>
     </fieldset>
+
+    </fieldset>
+
+<fieldset>
+    <legend>Impresión Diagnóstica</legend>
+    <div class="row">
+        <label for="diagnostico">Diagnóstico:</label>
+        <input type="text" id="diagnostico" name="diagnostico">
+        <label for="tipo">Tipo de DX:</label>
+        <select id="tipo" name="tipo">
+            <option value="" selected="selected">- selecciona -</option>
+            <option value="presuntivo">Presuntivo</option>
+            <option value="definitivo">Definitivo</option>
+            <option value="repetido">Repetido</option>
+        </select>
+        <label for="cie10">CIE-10:</label>
+        <input type="text" id="cie10" name="cie10">
+    </div>
+</fieldset> 
 
     <fieldset>
         <legend>Alta del Paciente</legend>

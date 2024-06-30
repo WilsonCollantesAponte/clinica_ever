@@ -64,9 +64,10 @@
                             <li><a href="#" data-target="../section/formato_consulta_externa.php">Formato de consulta externa</a></li>
                             <li><a href="#" data-target="../section/formato_hospitalizacion.php">Formato de hospitalización</a></li>
                             <li><a href="#" data-target="../section/ficha_familiar.php">Ficha familiar</a></li>
-                        </ul>
+                        </ul>   
                     </li>
                     <li><a href="#" data-target="../section/EditarHistoriaClinica.php">Registros de pacientes</a></li>
+                     <li><a href="#" data-target="../section/BusquedaIncidencias.php">Registros de incidencias</a></li>
                 `;
             } else if (role == 2) {
                 sidebarMenu.innerHTML = `
@@ -84,6 +85,7 @@
             } else if (role == 4) {
                 sidebarMenu.innerHTML = `
                     <li><a href="#" data-target="../section/EditarHistoriaClinica.php">Registros de pacientes</a></li>
+                    <li><a href="#" data-target="../section/BusquedaIncidencias.php">Registros de incidencias</a></li>
                 `;
             }
 

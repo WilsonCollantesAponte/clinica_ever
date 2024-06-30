@@ -44,11 +44,11 @@
         <input type="date" class="form__input h-8 p-4 rounded-lg border-2 border-solid border-blue-600" required name="fecha" />
         <h6>Documento de Identidad</h6>
         <div>
-            <input id="dni" type="radio" name="identidad" value="dni" required />
+            <input id="dni" type="radio" name="tipoDocumento" value="dni" required />
             <label for="dni" >DNI</label>
-            <input id="carnet" type="radio" name="identidad" value="carnet" required />
+            <input id="carnet" type="radio" name="tipoDocumento" value="carnet" required />
             <label for="carnet">Carnet de Extranjería</label>
-            <input id="pasaporte" type="radio" name="identidad" value="pasaporte" required />
+            <input id="pasaporte" type="radio" name="tipoDocumento" value="pasaporte" required />
             <label for="pasaporte">PASAPORTE</label>
         </div>
         <input type="text" name="documentoIdentidad" class="form__input h-8 p-4 rounded-lg border-2 border-solid border-blue-600" />

@@ -437,7 +437,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-width: 2px;
 }
 .border-blue-600 {
-  border-color: rgb(37 99 235);
+  border-color: none;
 }
 .border-solid {
   border-style: solid;
