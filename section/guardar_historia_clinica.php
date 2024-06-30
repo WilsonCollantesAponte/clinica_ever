@@ -8,6 +8,7 @@ if (!$conexion) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
     $dni = $_POST['dni'];
+    $tipoDocumento = $_POST['tipoDocumento'] ?? "";
     $fechaAtencion = $_POST['fechaAtencion'] ?? "";
     $horaAtencion = $_POST['horaAtencion'] ?? "";
     $primerNombre = $_POST['primerNombre'] ?? "";
@@ -54,31 +55,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idPersonalMedico = $_POST['idPersonalMedico'] ?? 0;
 
     $query = "UPDATE historia_clinica SET 
-              fechaAtencion = ?, horaAtencion = ?, primerNombre = ?, segundoNombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, edad = ?, sexo = ?, fechaNacimiento = ?, estadoCivil = ?, departamento = ?, provincia = ?, distrito = ?, localidad = ?, direccion = ?, tipoAtencion = ?, servicio = ?, tiempoEnfermedad = ?, sintomas = ?, relato = ?, antecedentes = ?, frecuenciaCardiaca = ?, frecuenciaRespiratoria = ?, temperatura = ?, presionArterial = ?, saturacionOxigeno = ?, diagnostico = ?, tipoDX = ?, cie10 = ?, tratamiento = ?, nombrePrimerAcomp = ?, nombreSegundoAcomp = ?, apellidoPaternoAcomp = ?, apellidoMaternoAcomp = ?, dniAcompanante = ?, parentesco = ?, destinoPaciente = ?, establecimientoReferencia = ?, evolucion = ?, fechaEgreso = ?, horaEgreso = ?, nombreResponsableAlta = ?, firma = ?, idPersonalMedico = ? 
-              WHERE id = ? AND dni = ?";
+              dni = '$dni', tipoDocumento = '$tipoDocumento', fechaAtencion = '$fechaAtencion', horaAtencion = '$horaAtencion', 
+              primerNombre = '$primerNombre', segundoNombre = '$segundoNombre', apellidoPaterno = '$apellidoPaterno', 
+              apellidoMaterno = '$apellidoMaterno', edad = '$edad', sexo = '$sexo', fechaNacimiento = '$fechaNacimiento', 
+              estadoCivil = '$estadoCivil', departamento = '$departamento', provincia = '$provincia', distrito = '$distrito', 
+              localidad = '$localidad', direccion = '$direccion', tipoAtencion = '$tipoAtencion', servicio = '$servicio', 
+              tiempoEnfermedad = '$tiempoEnfermedad', sintomas = '$sintomas', relato = '$relato', antecedentes = '$antecedentes', 
+              frecuenciaCardiaca = '$frecuenciaCardiaca', frecuenciaRespiratoria = '$frecuenciaRespiratoria', temperatura = '$temperatura', 
+              presionArterial = '$presionArterial', saturacionOxigeno = '$saturacionOxigeno', diagnostico = '$diagnostico', 
+              tipoDX = '$tipoDX', cie10 = '$cie10', tratamiento = '$tratamiento', nombrePrimerAcomp = '$nombrePrimerAcomp', 
+              nombreSegundoAcomp = '$nombreSegundoAcomp', apellidoPaternoAcomp = '$apellidoPaternoAcomp', apellidoMaternoAcomp = '$apellidoMaternoAcomp', 
+              dniAcompanante = '$dniAcompanante', parentesco = '$parentesco', destinoPaciente = '$destinoPaciente', 
+              establecimientoReferencia = '$establecimientoReferencia', evolucion = '$evolucion', fechaEgreso = '$fechaEgreso', 
+              horaEgreso = '$horaEgreso', nombreResponsableAlta = '$nombreResponsableAlta', firma = '$firma', idPersonalMedico = '$idPersonalMedico' 
+              WHERE id = '$id'";
 
-    $stmt = mysqli_prepare($conexion, $query);
-
-    if (!$stmt) {
-        echo "Error en mysqli_prepare: " . mysqli_error($conexion);
-        exit();
-    }
-
-    mysqli_stmt_bind_param($stmt, "ssssssssssssssssssssssssssssssssssssssssssi", 
-        $fechaAtencion, $horaAtencion, $primerNombre, $segundoNombre, $apellidoPaterno, $apellidoMaterno, 
-        $edad, $sexo, $fechaNacimiento, $estadoCivil, $departamento, $provincia, $distrito, $localidad, $direccion, 
-        $tipoAtencion, $servicio, $tiempoEnfermedad, $sintomas, $relato, $antecedentes, $frecuenciaCardiaca, 
-        $frecuenciaRespiratoria, $temperatura, $presionArterial, $saturacionOxigeno, $diagnostico, $tipoDX, $cie10, 
-        $tratamiento, $nombrePrimerAcomp, $nombreSegundoAcomp, $apellidoPaternoAcomp, $apellidoMaternoAcomp, 
-        $dniAcompanante, $parentesco, $destinoPaciente, $establecimientoReferencia, $evolucion, $fechaEgreso, 
-        $horaEgreso, $nombreResponsableAlta, $firma, $idPersonalMedico, $id, $dni);
-
-    $resultado = mysqli_stmt_execute($stmt);
-
-    if ($resultado) {
-        echo "<script>alert('Historia clínica guardada exitosamente.'); window.location.href = '../section/bienvenida.php';</script>";
+    if (mysqli_query($conexion, $query)) {
+        echo "Historia clínica actualizada exitosamente.";
     } else {
-        echo "Error al guardar la historia clínica: " . mysqli_error($conexion);
+        echo "Error al actualizar la historia clínica: " . mysqli_error($conexion);
     }
 
     mysqli_close($conexion);

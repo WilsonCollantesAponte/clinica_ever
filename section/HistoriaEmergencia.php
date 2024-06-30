@@ -69,6 +69,7 @@ mysqli_close($conexion);
             <label for="dni">DNI:</label>
             <input type="text" id="dni" name="dni" value="<?php echo isset($datosUsuario['dni']) ? $datosUsuario['dni'] : ''; ?>">
             <input type="hidden" id="id" name="id" value="<?php echo isset($datosUsuario['id']) ? $datosUsuario['id'] : ''; ?>">
+            <input type="hidden" id="tipoDocumento" name="tipoDocumento" value="<?php echo isset($datosUsuario['tipoDocumento']) ? $datosUsuario['tipoDocumento'] : ''; ?>">
             <label for="edad">Edad:</label>
             <input type="number" id="edad" name="edad" value="<?php echo isset($datosUsuario['edad']) ? $datosUsuario['edad'] : ''; ?>">
         </div>
@@ -174,7 +175,7 @@ mysqli_close($conexion);
             <label for="saturacion">Saturación de Oxígeno:</label>
             <input type="text" id="saturacion" name="saturacion">
         </div>
-  
+    </fieldset>
 
     <fieldset>
         <legend>Exámenes Auxiliares</legend>
@@ -245,24 +246,22 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    </fieldset>
-
-<fieldset>
-    <legend>Impresión Diagnóstica</legend>
-    <div class="row">
-        <label for="diagnostico">Diagnóstico:</label>
-        <input type="text" id="diagnostico" name="diagnostico">
-        <label for="tipo">Tipo de DX:</label>
-        <select id="tipo" name="tipo">
-            <option value="" selected="selected">- selecciona -</option>
-            <option value="presuntivo">Presuntivo</option>
-            <option value="definitivo">Definitivo</option>
-            <option value="repetido">Repetido</option>
-        </select>
-        <label for="cie10">CIE-10:</label>
-        <input type="text" id="cie10" name="cie10">
-    </div>
-</fieldset> 
+    <fieldset>
+        <legend>Impresión Diagnóstica</legend>
+        <div class="row">
+            <label for="diagnostico">Diagnóstico:</label>
+            <input type="text" id="diagnostico" name="diagnostico">
+            <label for="tipo">Tipo de DX:</label>
+            <select id="tipo" name="tipo">
+                <option value="" selected="selected">- selecciona -</option>
+                <option value="presuntivo">Presuntivo</option>
+                <option value="definitivo">Definitivo</option>
+                <option value="repetido">Repetido</option>
+            </select>
+            <label for="cie10">CIE-10:</label>
+            <input type="text" id="cie10" name="cie10">
+        </div>
+    </fieldset> 
 
     <fieldset>
         <legend>Alta del Paciente</legend>

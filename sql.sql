@@ -45,8 +45,8 @@ CREATE TABLE historia_clinica (
     horaEgreso TIME,
     nombreResponsableAlta VARCHAR(50),
     idPersonalMedico INT,
-    firma VARCHAR(255)
-    tipoDocumento VARCHAR(20);
+    firma VARCHAR(255),
+    tipoDocumento VARCHAR(20)
 );
 
 CREATE TABLE usuario (
