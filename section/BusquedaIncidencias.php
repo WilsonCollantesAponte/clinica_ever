@@ -12,7 +12,7 @@ $datosUsuario = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number'])) {
     $dni = $_POST['document_number'];
 
-    $query = "SELECT id, dni, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno FROM historia_clinica WHERE dni = '$dni'";
+    $query = "SELECT id, dni, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, fechaAtencion FROM historia_clinica WHERE dni = '$dni'";
     $resultado = mysqli_query($conexion, $query);
 
     if (mysqli_num_rows($resultado) > 0) {
@@ -27,9 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number'])) {
 mysqli_close($conexion);
 ?>
 
-<link rel="stylesheet" href="../estilos/styleem.css">
-
-<h1>Busqueda de Incidencias</h1>
+<h1 style="text-align: center; font-family: Arial, sans-serif;">Busqueda de Incidencias</h1>
 
 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px;">
     <form id="searchForm" action="BusquedaIncidencias.php" method="post" style="display: flex; flex-direction: column; align-items: center;">
@@ -40,27 +38,29 @@ mysqli_close($conexion);
 
 <?php if (!empty($datosUsuario)): ?>
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <h2>Resultados de la búsqueda</h2>
-        <table border="1" style="border-collapse: collapse; width: 80%; text-align: left;">
+        <h2 style="font-family: Arial, sans-serif;">Resultados de la búsqueda</h2>
+        <table border="1" style="border-collapse: collapse; width: 80%; text-align: left; font-family: Arial, sans-serif;">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>DNI</th>
-                    <th>Primer Nombre</th>
-                    <th>Segundo Nombre</th>
-                    <th>Apellido Paterno</th>
-                    <th>Apellido Materno</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">ID</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">DNI</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">Primer Nombre</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">Segundo Nombre</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">Apellido Paterno</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">Apellido Materno</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">Fecha de Atención</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($datosUsuario as $usuario): ?>
                     <tr>
-                        <td><?php echo $usuario['id']; ?></td>
-                        <td><?php echo $usuario['dni']; ?></td>
-                        <td><?php echo $usuario['primerNombre']; ?></td>
-                        <td><?php echo $usuario['segundoNombre']; ?></td>
-                        <td><?php echo $usuario['apellidoPaterno']; ?></td>
-                        <td><?php echo $usuario['apellidoMaterno']; ?></td>
+                        <td style="padding: 8px;"><?php echo $usuario['id']; ?></td>
+                        <td style="padding: 8px;"><?php echo $usuario['dni']; ?></td>
+                        <td style="padding: 8px;"><?php echo $usuario['primerNombre']; ?></td>
+                        <td style="padding: 8px;"><?php echo $usuario['segundoNombre']; ?></td>
+                        <td style="padding: 8px;"><?php echo $usuario['apellidoPaterno']; ?></td>
+                        <td style="padding: 8px;"><?php echo $usuario['apellidoMaterno']; ?></td>
+                        <td style="padding: 8px;"><?php echo $usuario['fechaAtencion']; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
