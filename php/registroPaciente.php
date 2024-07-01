@@ -99,9 +99,6 @@ $genero = $generoForm == "masculino" ? "M" : "F";
 // Preparar consulta SQL
 $query = "INSERT INTO historia_clinica (tipoDocumento, dni, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, sexo, grupoSanguineo, estadoCivil) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-// Imprimir consulta SQL para depuración
-echo "Consulta SQL: " . $query . "<br>";
-
 // Preparar declaración
 $stmt = mysqli_prepare($conexion, $query);
 
@@ -117,8 +114,9 @@ mysqli_stmt_bind_param($stmt, "ssssssssss", $tipodocumento, $documentoIdentidad,
 $resultado = mysqli_stmt_execute($stmt);
 
 if ($resultado) {
+    $nuevoId = mysqli_insert_id($conexion);
     echo '<script>';
-    echo 'alert("Registro exitoso.");';
+    echo 'alert("Registro exitoso. ID del nuevo registro: ' . $nuevoId . '");';
     echo 'window.location="../section/bienvenida.php";';
     echo '</script>';
 } else {
