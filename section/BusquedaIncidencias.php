@@ -12,14 +12,16 @@ function buscarIncidencias($dni) {
     $query = "SELECT id, dni, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, fechaAtencion, diagnostico FROM historia_clinica WHERE dni = '$dni'";
     $resultado = mysqli_query($conexion, $query);
 
-    if (mysqli_num_rows($resultado) > 0) {
+    $num_rows = mysqli_num_rows($resultado);
+
+    if ($num_rows > 0) {
         while ($row = mysqli_fetch_assoc($resultado)) {
             $datosUsuario[] = $row;
         }
     }
     
     mysqli_close($conexion);
-    return $datosUsuario;
+    return ['num_rows' => $num_rows, 'data' => $datosUsuario];
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number'])) {
@@ -57,8 +59,8 @@ $(document).ready(function() {
             data: { document_number: dni },
             success: function(response) {
                 var datosUsuario = JSON.parse(response);
-                if (datosUsuario.length > 0) {
-                    var table = '<h2 style="font-family: Arial, sans-serif;">Resultados de la búsqueda</h2>';
+                if (datosUsuario.data.length > 0) {
+                    var table = '<h2 style="font-family: Arial, sans-serif;">Resultados de la búsqueda (' + datosUsuario.num_rows + ' registros encontrados)</h2>';
                     table += '<table border="1" style="border-collapse: collapse; width: 80%; text-align: left; font-family: Arial, sans-serif; border-radius: 8px; overflow: hidden;"><thead><tr>';
                     table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">ID</th>';
                     table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">DNI</th>';
@@ -70,7 +72,7 @@ $(document).ready(function() {
                     table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">Diagnóstico</th>';
                     table += '</tr></thead><tbody>';
 
-                    $.each(datosUsuario, function(index, usuario) {
+                    $.each(datosUsuario.data, function(index, usuario) {
                         table += '<tr>';
                         table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff;">' + (usuario.id || '') + '</td>';
                         table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff;">' + (usuario.dni || '') + '</td>';
@@ -86,7 +88,7 @@ $(document).ready(function() {
                     table += '</tbody></table>';
                     $('#resultados').html(table);
                 } else {
-                    alert("No se encontraron resultados para el DNI ingresado.");
+                    $('#resultados').html('<h2 style="font-family: Arial, sans-serif;">No se encontraron resultados para el DNI ingresado.</h2>');
                 }
             }
         });
