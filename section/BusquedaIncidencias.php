@@ -71,13 +71,13 @@ $(document).ready(function() {
 
                     $.each(datosUsuario, function(index, usuario) {
                         table += '<tr>';
-                        table += '<td style="padding: 8px;">' + usuario.id + '</td>';
-                        table += '<td style="padding: 8px;">' + usuario.dni + '</td>';
-                        table += '<td style="padding: 8px;">' + usuario.primerNombre + '</td>';
-                        table += '<td style="padding: 8px;">' + usuario.segundoNombre + '</td>';
-                        table += '<td style="padding: 8px;">' + usuario.apellidoPaterno + '</td>';
-                        table += '<td style="padding: 8px;">' + usuario.apellidoMaterno + '</td>';
-                        table += '<td style="padding: 8px;">' + usuario.fechaAtencion + '</td>';
+                        table += '<td style="padding: 8px;">' + (usuario.id || '') + '</td>';
+                        table += '<td style="padding: 8px;">' + (usuario.dni || '') + '</td>';
+                        table += '<td style="padding: 8px;">' + (usuario.primerNombre || '') + '</td>';
+                        table += '<td style="padding: 8px;">' + (usuario.segundoNombre || '') + '</td>';
+                        table += '<td style="padding: 8px;">' + (usuario.apellidoPaterno || '') + '</td>';
+                        table += '<td style="padding: 8px;">' + (usuario.apellidoMaterno || '') + '</td>';
+                        table += '<td style="padding: 8px;">' + (usuario.fechaAtencion || '') + '</td>';
                         table += '</tr>';
                     });
 
