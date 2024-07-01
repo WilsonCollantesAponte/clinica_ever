@@ -9,19 +9,20 @@ if (!$conexion) {
 
 $datosUsuario = [];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['document_number']) && isset($_POST['id'])) {
     $dni = $_POST['document_number'];
+    $id = $_POST['id'];
 
-    $query = "SELECT * FROM historia_clinica WHERE dni = ?";
+    $query = "SELECT * FROM historia_clinica WHERE dni = ? AND id = ?";
     $stmt = mysqli_prepare($conexion, $query);
-    mysqli_stmt_bind_param($stmt, "s", $dni);
+    mysqli_stmt_bind_param($stmt, "si", $dni, $id);
     mysqli_stmt_execute($stmt);
     $resultado = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($resultado) > 0) {
         $datosUsuario = mysqli_fetch_assoc($resultado);
     } else {
-        echo '<script>alert("No se encontraron resultados para el DNI ingresado.");</script>';
+        echo '<script>alert("No se encontraron resultados para el DNI y ID ingresados.");</script>';
     }
 }
 
@@ -37,8 +38,9 @@ mysqli_close($conexion);
 
 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px;">
     <form id="searchForm" action="HistoriaEmergencia.php" method="post" style="display: flex; flex-direction: column; align-items: center;">
-        <input type="text" id="document_number" name="document_number" required placeholder="Ingrese el DNI" style="width: 250px; padding: 10px; border: 2px solid #ccc; border-radius: 25px; font-size: 16px; outline: none; margin-bottom: 10px;">
-        <button id="search-button" type="submit" style="padding: 10px 20px; border: 2px solid #007bff; background-color: #007bff; color: white; font-size: 16px; border-radius: 25px; cursor: pointer; outline: none;">Buscar</button>
+        <input type="text" id="document_number" name="document_number" required placeholder="Ingrese el DNI" style="width: 300px; padding: 10px; border: 2px solid #ccc; border-radius: 25px; font-size: 16px; outline: none; margin-bottom: 10px;">
+        <input type="text" id="id" name="id" required placeholder="Identificador(id) de la incidencia" style="width: 300px; padding: 10px; border: 2px solid #ccc; border-radius: 25px; font-size: 16px; outline: none; margin-bottom: 10px;">
+        <button id="search-button" type="submit" style="padding: 10px 30px; border: 2px solid #007bff; background-color: #007bff; color: white; font-size: 16px; border-radius: 25px; cursor: pointer; outline: none;">Buscar</button>
     </form>
 </div>
 
@@ -66,6 +68,8 @@ mysqli_close($conexion);
         <div class="row">
             <label for="dni">DNI:</label>
             <input type="text" id="dni" name="dni" value="<?php echo isset($datosUsuario['dni']) ? $datosUsuario['dni'] : ''; ?>">
+            <input type="hidden" id="id" name="id" value="<?php echo isset($datosUsuario['id']) ? $datosUsuario['id'] : ''; ?>">
+            <input type="hidden" id="tipoDocumento" name="tipoDocumento" value="<?php echo isset($datosUsuario['tipoDocumento']) ? $datosUsuario['tipoDocumento'] : ''; ?>">
             <label for="edad">Edad:</label>
             <input type="number" id="edad" name="edad" value="<?php echo isset($datosUsuario['edad']) ? $datosUsuario['edad'] : ''; ?>">
         </div>
@@ -171,7 +175,7 @@ mysqli_close($conexion);
             <label for="saturacion">Saturación de Oxígeno:</label>
             <input type="text" id="saturacion" name="saturacion">
         </div>
-  
+    </fieldset>
 
     <fieldset>
         <legend>Exámenes Auxiliares</legend>
@@ -242,24 +246,22 @@ mysqli_close($conexion);
         </div>
     </fieldset>
 
-    </fieldset>
-
-<fieldset>
-    <legend>Impresión Diagnóstica</legend>
-    <div class="row">
-        <label for="diagnostico">Diagnóstico:</label>
-        <input type="text" id="diagnostico" name="diagnostico">
-        <label for="tipo">Tipo de DX:</label>
-        <select id="tipo" name="tipo">
-            <option value="" selected="selected">- selecciona -</option>
-            <option value="presuntivo">Presuntivo</option>
-            <option value="definitivo">Definitivo</option>
-            <option value="repetido">Repetido</option>
-        </select>
-        <label for="cie10">CIE-10:</label>
-        <input type="text" id="cie10" name="cie10">
-    </div>
-</fieldset> 
+    <fieldset>
+        <legend>Impresión Diagnóstica</legend>
+        <div class="row">
+            <label for="diagnostico">Diagnóstico:</label>
+            <input type="text" id="diagnostico" name="diagnostico">
+            <label for="tipo">Tipo de DX:</label>
+            <select id="tipo" name="tipo">
+                <option value="" selected="selected">- selecciona -</option>
+                <option value="presuntivo">Presuntivo</option>
+                <option value="definitivo">Definitivo</option>
+                <option value="repetido">Repetido</option>
+            </select>
+            <label for="cie10">CIE-10:</label>
+            <input type="text" id="cie10" name="cie10">
+        </div>
+    </fieldset> 
 
     <fieldset>
         <legend>Alta del Paciente</legend>

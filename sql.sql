@@ -1,5 +1,6 @@
 CREATE TABLE historia_clinica (
-    dni VARCHAR(20) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dni VARCHAR(20),
     primerNombre VARCHAR(50),
     segundoNombre VARCHAR(50),
     apellidoPaterno VARCHAR(50),
@@ -44,7 +45,8 @@ CREATE TABLE historia_clinica (
     horaEgreso TIME,
     nombreResponsableAlta VARCHAR(50),
     idPersonalMedico INT,
-    firma VARCHAR(255)
+    firma VARCHAR(255),
+    tipoDocumento VARCHAR(20)
 );
 
 CREATE TABLE usuario (

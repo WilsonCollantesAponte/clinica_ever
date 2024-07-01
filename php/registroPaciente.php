@@ -96,29 +96,8 @@ $generoForm = $_POST["genero"];
 $historial = $_POST["historial"];
 $genero = $generoForm == "masculino" ? "M" : "F";
 
-// Verificar si el documento de identidad ya está registrado
-$verificar_documento = mysqli_query($conexion, "SELECT * FROM historia_clinica WHERE dni='$documentoIdentidad'");
-
-if (!$verificar_documento) {
-    echo "Error en la consulta de verificación: " . mysqli_error($conexion);
-    exit();
-}
-
-if (mysqli_num_rows($verificar_documento) > 0) {
-    echo '
-      <script>
-        alert("Este Documento de identidad ya está registrado. Por favor verifique que los datos sean correctos.");
-        window.location="../section/bienvenida.php";
-      </script>
-    ';  
-    exit();
-}
-
 // Preparar consulta SQL
 $query = "INSERT INTO historia_clinica (tipoDocumento, dni, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, sexo, grupoSanguineo, estadoCivil) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-// Imprimir consulta SQL para depuración
-echo "Consulta SQL: " . $query . "<br>";
 
 // Preparar declaración
 $stmt = mysqli_prepare($conexion, $query);
@@ -135,9 +114,11 @@ mysqli_stmt_bind_param($stmt, "ssssssssss", $tipodocumento, $documentoIdentidad,
 $resultado = mysqli_stmt_execute($stmt);
 
 if ($resultado) {
-    echo "Registro exitoso.";
-    // Redirigir a la página de bienvenida
-    header("location:../section/bienvenida.php");
+    $nuevoId = mysqli_insert_id($conexion);
+    echo '<script>';
+    echo 'alert("Registro exitoso. ID del nuevo registro: ' . $nuevoId . '");';
+    echo 'window.location="../section/bienvenida.php";';
+    echo '</script>';
 } else {
     echo "Error al registrar: " . mysqli_stmt_error($stmt);
 }
