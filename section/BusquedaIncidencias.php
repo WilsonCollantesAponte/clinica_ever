@@ -9,7 +9,7 @@ function buscarIncidencias($dni) {
     }
 
     $datosUsuario = [];
-    $query = "SELECT id, dni, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, fechaAtencion FROM historia_clinica WHERE dni = '$dni'";
+    $query = "SELECT id, dni, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, fechaAtencion, diagnostico FROM historia_clinica WHERE dni = '$dni'";
     $resultado = mysqli_query($conexion, $query);
 
     if (mysqli_num_rows($resultado) > 0) {
@@ -67,6 +67,7 @@ $(document).ready(function() {
                     table += '<th style="padding: 8px; background-color: #f2f2f2;">Apellido Paterno</th>';
                     table += '<th style="padding: 8px; background-color: #f2f2f2;">Apellido Materno</th>';
                     table += '<th style="padding: 8px; background-color: #f2f2f2;">Fecha de Atención</th>';
+                    table += '<th style="padding: 8px; background-color: #f2f2f2;">Diagnóstico</th>';
                     table += '</tr></thead><tbody>';
 
                     $.each(datosUsuario, function(index, usuario) {
@@ -78,6 +79,7 @@ $(document).ready(function() {
                         table += '<td style="padding: 8px;">' + (usuario.apellidoPaterno || '') + '</td>';
                         table += '<td style="padding: 8px;">' + (usuario.apellidoMaterno || '') + '</td>';
                         table += '<td style="padding: 8px;">' + (usuario.fechaAtencion || '') + '</td>';
+                        table += '<td style="padding: 8px;">' + (usuario.diagnostico || '') + '</td>';
                         table += '</tr>';
                     });
 
