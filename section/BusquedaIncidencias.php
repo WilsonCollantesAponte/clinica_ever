@@ -9,7 +9,7 @@ function buscarIncidencias($dni) {
     }
 
     $datosUsuario = [];
-    $query = "SELECT id, dni, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, fechaAtencion FROM historia_clinica WHERE dni = '$dni'";
+    $query = "SELECT id, dni, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, fechaAtencion, diagnostico FROM historia_clinica WHERE dni = '$dni'";
     $resultado = mysqli_query($conexion, $query);
 
     if (mysqli_num_rows($resultado) > 0) {
@@ -59,25 +59,27 @@ $(document).ready(function() {
                 var datosUsuario = JSON.parse(response);
                 if (datosUsuario.length > 0) {
                     var table = '<h2 style="font-family: Arial, sans-serif;">Resultados de la búsqueda</h2>';
-                    table += '<table border="1" style="border-collapse: collapse; width: 80%; text-align: left; font-family: Arial, sans-serif;"><thead><tr>';
-                    table += '<th style="padding: 8px; background-color: #f2f2f2;">ID</th>';
-                    table += '<th style="padding: 8px; background-color: #f2f2f2;">DNI</th>';
-                    table += '<th style="padding: 8px; background-color: #f2f2f2;">Primer Nombre</th>';
-                    table += '<th style="padding: 8px; background-color: #f2f2f2;">Segundo Nombre</th>';
-                    table += '<th style="padding: 8px; background-color: #f2f2f2;">Apellido Paterno</th>';
-                    table += '<th style="padding: 8px; background-color: #f2f2f2;">Apellido Materno</th>';
-                    table += '<th style="padding: 8px; background-color: #f2f2f2;">Fecha de Atención</th>';
+                    table += '<table border="1" style="border-collapse: collapse; width: 80%; text-align: left; font-family: Arial, sans-serif; border-radius: 8px; overflow: hidden;"><thead><tr>';
+                    table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">ID</th>';
+                    table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">DNI</th>';
+                    table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">Primer Nombre</th>';
+                    table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">Segundo Nombre</th>';
+                    table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">Apellido Paterno</th>';
+                    table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">Apellido Materno</th>';
+                    table += '<th style="padding: 12px; background-color: #b0b0b0; color: white; width: 200px;">Fecha de Atención</th>';
+                    table += '<th style="padding: 12px; background-color: #b0b0b0; color: white;">Diagnóstico</th>';
                     table += '</tr></thead><tbody>';
 
                     $.each(datosUsuario, function(index, usuario) {
                         table += '<tr>';
-                        table += '<td style="padding: 8px;">' + (usuario.id || '') + '</td>';
-                        table += '<td style="padding: 8px;">' + (usuario.dni || '') + '</td>';
-                        table += '<td style="padding: 8px;">' + (usuario.primerNombre || '') + '</td>';
-                        table += '<td style="padding: 8px;">' + (usuario.segundoNombre || '') + '</td>';
-                        table += '<td style="padding: 8px;">' + (usuario.apellidoPaterno || '') + '</td>';
-                        table += '<td style="padding: 8px;">' + (usuario.apellidoMaterno || '') + '</td>';
-                        table += '<td style="padding: 8px;">' + (usuario.fechaAtencion || '') + '</td>';
+                        table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff;">' + (usuario.id || '') + '</td>';
+                        table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff;">' + (usuario.dni || '') + '</td>';
+                        table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff;">' + (usuario.primerNombre || '') + '</td>';
+                        table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff;">' + (usuario.segundoNombre || '') + '</td>';
+                        table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff;">' + (usuario.apellidoPaterno || '') + '</td>';
+                        table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff;">' + (usuario.apellidoMaterno || '') + '</td>';
+                        table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff; width: 200px;">' + (usuario.fechaAtencion || '') + '</td>';
+                        table += '<td style="padding: 12px; border: 1px solid #ddd; background-color: #fff;">' + (usuario.diagnostico || '') + '</td>';
                         table += '</tr>';
                     });
 
