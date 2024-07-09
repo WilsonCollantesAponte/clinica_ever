@@ -8,17 +8,17 @@
             <h6>Primer Nombre</h6>
             <h6>Segundo Nombre</h6>
             <input type="text" class="h-8 rounded-lg border-2 border-solid border-blue-600" name="primerNombre" id="primerNombre"/>
-            <div id="errorPrimerNombre" class="text-red-500 text-sm"></div>
+            <div id="errorPrimerNombre" style="color: red; font-size: small;"></div>
             <input type="text" class="h-8 rounded-lg border-2 border-solid border-blue-600" name="segundoNombre" id="segundoNombre"/>
-            <div id="errorSegundoNombre" class="text-red-500 text-sm"></div>
+            <div id="errorSegundoNombre" style="color: red; font-size: small;"></div>
         </div>
         <div class="grid grid-cols-2 gap-x-4">
             <h6>Apellido Paterno</h6>
             <h6>Apellido Materno</h6>
             <input type="text" class="h-8 rounded-lg border-2 border-solid border-blue-600" name="apellidoPaterno" id="apellidoPaterno"/>            
-            <div id="errorApellidoPaterno" class="text-red-500 text-sm"></div>
+            <div id="errorApellidoPaterno" style="color: red; font-size: small;"></div>
             <input type="text" class="h-8 rounded-lg border-2 border-solid border-blue-600" name="apellidoMaterno" id="apellidoMaterno"/>
-            <div id="errorApellidoMaterno" class="text-red-500 text-sm"></div>
+            <div id="errorApellidoMaterno" style="color: red; font-size: small;"></div>
         </div>
         <div class="grid grid-cols-2 gap-x-4">
             <h6>Grupo Sanguíneo</h6>
@@ -34,7 +34,7 @@
                 <option value="O+">Grupo O Rh+</option>
                 <option value="O-">Grupo O Rh-</option>
             </select>
-            <div id="errorGrupoSanguineo" class="text-red-500 text-sm"></div>
+            <div id="errorGrupoSanguineo" style="color: red; font-size: small;"></div>
             <select class="h-8 rounded-lg border-2 border-solid border-blue-600" name="estadoCivil" id="estadoCivil">
                 <option value="">Seleccionar...</option>
                 <option value="soltero">Soltero/a</option>
@@ -43,12 +43,12 @@
                 <option value="divorciado">Divorciado/a</option>
                 <option value="viudo">Viudo/a</option>
             </select>
-            <div id="errorEstadoCivil" class="text-red-500 text-sm"></div>
+            <div id="errorEstadoCivil" style="color: red; font-size: small;"></div>
         </div>
         <div class="grid grid-cols-1">
             <h6>Fecha de nacimiento</h6>
             <input type="date" class="form__input h-8 p-4 rounded-lg border-2 border-solid border-blue-600" name="fecha" id="fecha"/>
-            <div id="errorFecha" class="text-red-500 text-sm"></div>
+            <div id="errorFecha" style="color: red; font-size: small;"></div>
             <h6>Documento de Identidad</h6>
             <div>
                 <input id="dni" type="radio" name="tipoDocumento" value="dni" />
@@ -58,9 +58,9 @@
                 <input id="pasaporte" type="radio" name="tipoDocumento" value="pasaporte" />
                 <label for="pasaporte">PASAPORTE</label>
             </div>
-            <div id="errorTipoDocumento" class="text-red-500 text-sm"></div>
+            <div id="errorTipoDocumento" style="color: red; font-size: small;"></div>
             <input type="text" name="documentoIdentidad" class="form__input h-8 p-4 rounded-lg border-2 border-solid border-blue-600" id="documentoIdentidad"/>
-            <div id="errorDocumentoIdentidad" class="text-red-500 text-sm"></div>
+            <div id="errorDocumentoIdentidad" style="color: red; font-size: small;"></div>
             <div class="grid grid-cols-1 mt-4">
                 <h6>Género</h6>
                 <div>
@@ -71,13 +71,13 @@
                     <input id="femenino" type="radio" name="genero" value="femenino" />
                     <label for="femenino">Femenino </label>
                 </div>
-                <div id="errorGenero" class="text-red-500 text-sm"></div>
+                <div id="errorGenero" style="color: red; font-size: small;"></div>
             </div>
         </div>
         <div>
             <h6>Historial Médico</h6>
             <textarea name="historial" id="historial" placeholder="Ej. Hipertensión, Diabetes tipo 2, alergias..."></textarea>
-            <div id="errorHistorial" class="text-red-500 text-sm"></div>
+            <div id="errorHistorial" style="color: red; font-size: small;"></div>
         </div>
         <div class="flex justify-end">
             <button class="mr-8" type="submit">Guardar</button>

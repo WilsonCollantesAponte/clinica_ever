@@ -18,9 +18,9 @@ document
     const historial = document.getElementById("historial");
 
     // Limpiar mensajes de error
-    document
-      .querySelectorAll(".text-red-500")
-      .forEach((el) => (el.textContent = ""));
+    document.querySelectorAll(".text-red-500").forEach((el) => {
+      el.textContent = "";
+    });
 
     // Validar campos
     if (!primerNombre.value.trim()) {
@@ -29,8 +29,7 @@ document
         mensaje:
           "El primer nombre no puede estar vacío o contener solo espacios.",
       });
-    }
-    if (!/^[a-zA-Z]+$/.test(primerNombre.value)) {
+    } else if (!/^[a-zA-Z]+$/.test(primerNombre.value)) {
       errores.push({
         campo: "errorPrimerNombre",
         mensaje: "El primer nombre solo puede contener letras.",
@@ -50,8 +49,7 @@ document
         mensaje:
           "El apellido paterno no puede estar vacío o contener solo espacios.",
       });
-    }
-    if (!/^[a-zA-Z]+$/.test(apellidoPaterno.value)) {
+    } else if (!/^[a-zA-Z]+$/.test(apellidoPaterno.value)) {
       errores.push({
         campo: "errorApellidoPaterno",
         mensaje: "El apellido paterno solo puede contener letras.",
@@ -64,8 +62,7 @@ document
         mensaje:
           "El apellido materno no puede estar vacío o contener solo espacios.",
       });
-    }
-    if (!/^[a-zA-Z]+$/.test(apellidoMaterno.value)) {
+    } else if (!/^[a-zA-Z]+$/.test(apellidoMaterno.value)) {
       errores.push({
         campo: "errorApellidoMaterno",
         mensaje: "El apellido materno solo puede contener letras.",
@@ -117,6 +114,7 @@ document
       });
     } else {
       if (
+        tipoDocumento &&
         tipoDocumento.value === "dni" &&
         !/^[0-9]{8}$/.test(documentoIdentidad.value)
       ) {
@@ -126,6 +124,7 @@ document
         });
       }
       if (
+        tipoDocumento &&
         tipoDocumento.value === "carnet" &&
         !/^[0-9]{1,20}$/.test(documentoIdentidad.value)
       ) {
@@ -135,6 +134,7 @@ document
         });
       }
       if (
+        tipoDocumento &&
         tipoDocumento.value === "pasaporte" &&
         !/^[A-Za-z]{3}[0-9]{6}$/.test(documentoIdentidad.value)
       ) {
@@ -168,3 +168,105 @@ document
       });
     }
   });
+
+// Añadir validadores dinámicos para limpiar errores
+document.getElementById("primerNombre").addEventListener("input", function () {
+  if (this.value.trim() && /^[a-zA-Z]+$/.test(this.value)) {
+    document.getElementById("errorPrimerNombre").textContent = "";
+  }
+});
+
+document.getElementById("segundoNombre").addEventListener("input", function () {
+  if (/^[a-zA-Z]*$/.test(this.value)) {
+    document.getElementById("errorSegundoNombre").textContent = "";
+  }
+});
+
+document
+  .getElementById("apellidoPaterno")
+  .addEventListener("input", function () {
+    if (this.value.trim() && /^[a-zA-Z]+$/.test(this.value)) {
+      document.getElementById("errorApellidoPaterno").textContent = "";
+    }
+  });
+
+document
+  .getElementById("apellidoMaterno")
+  .addEventListener("input", function () {
+    if (this.value.trim() && /^[a-zA-Z]+$/.test(this.value)) {
+      document.getElementById("errorApellidoMaterno").textContent = "";
+    }
+  });
+
+document
+  .getElementById("grupoSanguineo")
+  .addEventListener("change", function () {
+    if (this.value.trim()) {
+      document.getElementById("errorGrupoSanguineo").textContent = "";
+    }
+  });
+
+document.getElementById("estadoCivil").addEventListener("change", function () {
+  if (this.value.trim()) {
+    document.getElementById("errorEstadoCivil").textContent = "";
+  }
+});
+
+document.getElementById("fecha").addEventListener("change", function () {
+  if (this.value) {
+    const fechaNacimiento = new Date(this.value);
+    const fechaActual = new Date();
+    if (fechaNacimiento <= fechaActual) {
+      document.getElementById("errorFecha").textContent = "";
+    }
+  }
+});
+
+document.querySelectorAll('input[name="tipoDocumento"]').forEach((elem) => {
+  elem.addEventListener("change", function () {
+    if (document.querySelector('input[name="tipoDocumento"]:checked')) {
+      document.getElementById("errorTipoDocumento").textContent = "";
+    }
+  });
+});
+
+document
+  .getElementById("documentoIdentidad")
+  .addEventListener("input", function () {
+    const tipoDocumento = document.querySelector(
+      'input[name="tipoDocumento"]:checked'
+    );
+    if (this.value.trim()) {
+      let valid = false;
+      if (tipoDocumento.value === "dni" && /^[0-9]{8}$/.test(this.value)) {
+        valid = true;
+      } else if (
+        tipoDocumento.value === "carnet" &&
+        /^[0-9]{1,20}$/.test(this.value)
+      ) {
+        valid = true;
+      } else if (
+        tipoDocumento.value === "pasaporte" &&
+        /^[A-Za-z]{3}[0-9]{6}$/.test(this.value)
+      ) {
+        valid = true;
+      }
+      if (valid) {
+        document.getElementById("errorDocumentoIdentidad").textContent = "";
+      }
+    }
+  });
+
+document.querySelectorAll('input[name="genero"]').forEach((elem) => {
+  elem.addEventListener("change", function () {
+    if (document.querySelector('input[name="genero"]:checked')) {
+      document.getElementById("errorGenero").textContent = "";
+    }
+  });
+});
+
+document.getElementById("historial").addEventListener("input", function () {
+  if (this.value.trim()) {
+    document.getElementById("errorHistorial").textContent = "";
+  }
+});
