@@ -2,17 +2,17 @@
 
 include "conexion_be.php";
 
-// Función para validar campos de texto
+$errores = [];
+
+// Validar campos en el servidor por seguridad
 function validarCampo($campo) {
     return isset($campo) && trim($campo) !== '';
 }
 
-// Función para validar que el campo solo contiene letras
+// Validar que el campo solo contiene letras
 function validarSoloLetras($campo) {
     return preg_match('/^[a-zA-Z]+$/', $campo);
 }
-
-$errores = [];
 
 // Validar campos
 if (!validarCampo($_POST['primerNombre'])) {
@@ -73,7 +73,7 @@ if ($tipodocumento === 'dni' && !preg_match('/^[0-9]{8}$/', $documentoIdentidad)
     $errores[] = "El Pasaporte debe tener tres letras seguidas de seis dígitos.";
 }
 
-// Si hay errores, mostrar mensajes de error con una alerta
+// Si hay errores, mostrar mensajes de error y regresar al formulario
 if (!empty($errores)) {
     echo '<script>';
     echo 'alert("Se encontraron los siguientes errores: \n' . implode('\n', $errores) . '");';
